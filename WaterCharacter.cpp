@@ -332,9 +332,9 @@ void WaterCharacter::notify(CameraMsg &msg)
     _renderShader.pushProgram();
 
     if(msg.change == CameraMsg::PROJECTION)
-        _renderShader.setMatrix4x4("Projection", msg.camera.projectionMatrix());
+        _renderShader.setMat4f("Projection", msg.camera.projectionMatrix());
     else
-        _renderShader.setMatrix4x4("View", msg.camera.viewMatrix());
+        _renderShader.setMat4f("View", msg.camera.viewMatrix());
 
     _renderShader.popProgram();
 }

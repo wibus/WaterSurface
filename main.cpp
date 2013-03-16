@@ -3,10 +3,10 @@
 using namespace std;
 
 #include <ScaenaApplication/Application.h>
+#include <ScaenaApplication/GlMainWindow.h>
 #include <Stage/QGLStage.h>
 using namespace scaena;
 
-#include "MainWindow.h"
 #include "WaterPlay.h"
 
 
@@ -19,7 +19,9 @@ int main(int argc, char** argv) try
     getApplication().addCustomStage(stage);
     getApplication().chooseStage(stage->id());
 
-    MainWindow window(stage);
+    GlMainWindow window(stage);
+    window.setGlWindowSpace(800, 600);
+    window.centerOnScreen();
     window.show();
 
     stage->setDrawSynch( true );

@@ -285,7 +285,7 @@ void CpuWaterSim::endStep(const StageTime &time)
 {
     Vec3f from = stage().camera().tripod().from();
     Vec3f to = stage().camera().tripod().to();
-    Vec2f radius = vec2(from - to).rotate(PI/200.0f);
+    Vec2f radius = rotate(Vec2f(from - to), PI/200.0f);
     Vec3f newPos(to.x() + radius.x(), to.y() + radius.y(), from.z());
     stage().camera().setTripod(newPos, to, Vec3f(0.0, 0.0, 1.0));
 
@@ -385,11 +385,11 @@ void CpuWaterSim::notify(cellar::CameraMsg &msg)
     _renderShader.pushProgram();
 
     if(msg.change == CameraMsg::PROJECTION)
-        _renderShader.setMatrix4x4("Projection", msg.camera.projectionMatrix());
+        _renderShader.setMat4f("Projection", msg.camera.projectionMatrix());
     else
     {
-        _renderShader.setMatrix4x4("View",   msg.camera.viewMatrix());
-        _renderShader.setMatrix3x3("Normal", msg.camera.viewMatrix().subMat3());
+        _renderShader.setMat4f("View",   msg.camera.viewMatrix());
+        _renderShader.setMat3f("Normal", submat(msg.camera.viewMatrix(), 3, 3));
         _renderShader.setVec4f("light.position", msg.camera.viewMatrix() * _pointLight.position);
     }
 

@@ -1,12 +1,10 @@
 SET(WATER_SURFACE_HEADERS
     ${WATER_SURFACE_SRC_DIR}/CpuWaterSim.h
-    ${WATER_SURFACE_SRC_DIR}/MainWindow.h
     ${WATER_SURFACE_SRC_DIR}/WaterCharacter.h
     ${WATER_SURFACE_SRC_DIR}/WaterPlay.h)
     
 SET(WATER_SURFACE_SOURCES
     ${WATER_SURFACE_SRC_DIR}/CpuWaterSim.cpp
-    ${WATER_SURFACE_SRC_DIR}/MainWindow.cpp
     ${WATER_SURFACE_SRC_DIR}/WaterCharacter.cpp
     ${WATER_SURFACE_SRC_DIR}/WaterPlay.cpp
     ${WATER_SURFACE_SRC_DIR}/main.cpp)

@@ -143,7 +143,7 @@ inline bool CpuWaterSim::isNeighbor(int ni, int nj)
 inline float CpuWaterSim::baseContribution(int ni, int nj)
 {
     assert( !((ni == 0) && (nj == 0)) );
-    return 1.0f / cellar::Vec2f(ni, nj).lengthSqr();
+    return 1.0f / cellar::Vec2f(ni, nj).length2();
 }
 
 inline void CpuWaterSim::position(int index, int& i, int& j)
