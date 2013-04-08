@@ -1,6 +1,6 @@
 #include "CpuWaterSim.h"
 
-#include <GL/glew.h>
+#include <GL3/gl3w.h>
 
 #include <Algorithm/Noise.h>
 #include <DataStructure/Vector.h>
@@ -339,7 +339,7 @@ void CpuWaterSim::draw(const StageTime &time)
     _renderShader.setFloat("material.fresnel",   _wallsMaterial.fresnel);
     glBindTexture(GL_TEXTURE_2D, _wallsTex);
     _wallsVao.bind();
-    glDrawArrays(GL_QUADS, 0, 24);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
 
     _renderShader.setVec4f("material.diffuse",   _waterMaterial.diffuse);
     _renderShader.setVec4f("material.specular",  _waterMaterial.specular);
@@ -452,7 +452,8 @@ void CpuWaterSim::setupGround()
 void CpuWaterSim::setupWalls()
 {
     const int NB_FACES = 6;
-    const int NB_VERTICIES = NB_FACES * 4;
+    const int NB_VERT_FACE = 6;
+    const int NB_VERTICIES = NB_FACES * NB_VERT_FACE;
 
     GlVbo3Df positionBuff;
     positionBuff.attribLocation = _renderShader.getAttributeLocation("position");
@@ -501,20 +502,26 @@ void CpuWaterSim::setupWalls()
 
     for(int f=0; f<NB_FACES; ++f)
     {
-        positionBuff.dataArray[f*4 + 0] = faceCenter[f] - faceU[f] - faceV[f];
-        positionBuff.dataArray[f*4 + 1] = faceCenter[f] + faceU[f] - faceV[f];
-        positionBuff.dataArray[f*4 + 2] = faceCenter[f] + faceU[f] + faceV[f];
-        positionBuff.dataArray[f*4 + 3] = faceCenter[f] - faceU[f] + faceV[f];
+        positionBuff.dataArray[f*NB_VERT_FACE + 0] = faceCenter[f] - faceU[f] - faceV[f];
+        positionBuff.dataArray[f*NB_VERT_FACE + 1] = faceCenter[f] + faceU[f] - faceV[f];
+        positionBuff.dataArray[f*NB_VERT_FACE + 2] = faceCenter[f] + faceU[f] + faceV[f];
+        positionBuff.dataArray[f*NB_VERT_FACE + 3] = faceCenter[f] + faceU[f] + faceV[f];
+        positionBuff.dataArray[f*NB_VERT_FACE + 4] = faceCenter[f] - faceU[f] + faceV[f];
+        positionBuff.dataArray[f*NB_VERT_FACE + 5] = faceCenter[f] - faceU[f] - faceV[f];
 
-        normalBuff.dataArray[f*4 + 0] = faceNormal[f];
-        normalBuff.dataArray[f*4 + 1] = faceNormal[f];
-        normalBuff.dataArray[f*4 + 2] = faceNormal[f];
-        normalBuff.dataArray[f*4 + 3] = faceNormal[f];
+        normalBuff.dataArray[f*NB_VERT_FACE + 0] = faceNormal[f];
+        normalBuff.dataArray[f*NB_VERT_FACE + 1] = faceNormal[f];
+        normalBuff.dataArray[f*NB_VERT_FACE + 2] = faceNormal[f];
+        normalBuff.dataArray[f*NB_VERT_FACE + 3] = faceNormal[f];
+        normalBuff.dataArray[f*NB_VERT_FACE + 4] = faceNormal[f];
+        normalBuff.dataArray[f*NB_VERT_FACE + 5] = faceNormal[f];
 
-        texCoordBuff.dataArray[f*4 + 0] = Vec2f(0.0f, 0.0f);
-        texCoordBuff.dataArray[f*4 + 1] = Vec2f(4.0f, 0.0f);
-        texCoordBuff.dataArray[f*4 + 2] = Vec2f(4.0f, 1.0f);
-        texCoordBuff.dataArray[f*4 + 3] = Vec2f(0.0f, 1.0f);
+        texCoordBuff.dataArray[f*NB_VERT_FACE + 0] = Vec2f(0.0f, 0.0f);
+        texCoordBuff.dataArray[f*NB_VERT_FACE + 1] = Vec2f(4.0f, 0.0f);
+        texCoordBuff.dataArray[f*NB_VERT_FACE + 2] = Vec2f(4.0f, 1.0f);
+        texCoordBuff.dataArray[f*NB_VERT_FACE + 3] = Vec2f(4.0f, 1.0f);
+        texCoordBuff.dataArray[f*NB_VERT_FACE + 4] = Vec2f(0.0f, 1.0f);
+        texCoordBuff.dataArray[f*NB_VERT_FACE + 5] = Vec2f(0.0f, 0.0f);
     }
 
 

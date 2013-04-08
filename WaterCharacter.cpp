@@ -6,7 +6,7 @@ using namespace scaena;
 #include <vector>
 #include <algorithm>
 
-#include <GL/glew.h>
+#include <GL3/gl3w.h>
 
 #include <Graphics/Image.h>
 
