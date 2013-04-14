@@ -8,8 +8,6 @@ using namespace scaena;
 
 #include <GL3/gl3w.h>
 
-#include <Graphics/Image.h>
-
 #include <Stage/AbstractStage.h>
 #include <Stage/Event/StageTime.h>
 #include <Stage/Event/SynchronousKeyboard.h>

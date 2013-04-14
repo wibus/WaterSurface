@@ -5,7 +5,7 @@
 #include <Algorithm/Noise.h>
 #include <DataStructure/Vector.h>
 #include <Graphics/GL/GlToolkit.h>
-#include <Graphics/ImageBank.h>
+#include <Graphics/Image/ImageBank.h>
 
 #include <PropTeam/AbstractPropTeam.h>
 
