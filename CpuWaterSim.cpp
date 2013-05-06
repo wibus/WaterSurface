@@ -4,8 +4,8 @@
 
 #include <Algorithm/Noise.h>
 #include <DataStructure/Vector.h>
-#include <Graphics/GL/GlToolkit.h>
-#include <Graphics/Image/ImageBank.h>
+#include <GL/GlToolkit.h>
+#include <Image/ImageBank.h>
 
 #include <PropTeam/AbstractPropTeam.h>
 
@@ -18,6 +18,7 @@
 
 using namespace std;
 using namespace cellar;
+using namespace media;
 using namespace scaena;
 
 
@@ -380,7 +381,7 @@ bool CpuWaterSim::keyPressEvent(const scaena::KeyboardEvent& event)
     return false;
 }
 
-void CpuWaterSim::notify(cellar::CameraMsg &msg)
+void CpuWaterSim::notify(CameraMsg &msg)
 {
     _renderShader.pushProgram();
 
@@ -603,7 +604,7 @@ void CpuWaterSim::setupTextures()
 
 void CpuWaterSim::setupShader()
 {
-    cellar::GlInputsOutputs locations;
+    GlInputsOutputs locations;
     locations.setInput(0, "position");
     locations.setInput(1, "normal");
     locations.setInput(2, "texCoord");

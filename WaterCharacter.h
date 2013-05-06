@@ -4,15 +4,15 @@
 #include <vector>
 
 #include <DataStructure/Vector.h>
-#include <Graphics/Camera/Camera.h>
-#include <Graphics/Camera/CameraManFree.h>
-#include <Graphics/GL/GlProgram.h>
+#include <Camera/Camera.h>
+#include <Camera/CameraManFree.h>
+#include <GL/GlProgram.h>
 #include <Hud/TextHud.h>
 #include <Character/AbstractCharacter.h>
 
 
 class WaterCharacter : public scaena::AbstractCharacter,
-                       public cellar::SpecificObserver<cellar::CameraMsg>
+                       public cellar::SpecificObserver<media::CameraMsg>
 {
 public:
     WaterCharacter(scaena::AbstractStage& stage);
@@ -26,7 +26,7 @@ public:
     virtual void exitStage();
 
     // Specific observer interface
-    virtual void notify(cellar::CameraMsg &msg);
+    virtual void notify(media::CameraMsg &msg);
 
 private:
     void setupWater();
@@ -50,11 +50,11 @@ private:
     unsigned int _quadVao;
     unsigned int _quadBuffer;
 
-    cellar::GlProgram _waterVelocityShader;
-    cellar::GlProgram _waterHeightShader;
-    cellar::GlProgram _renderShader;
+    media::GlProgram _waterVelocityShader;
+    media::GlProgram _waterHeightShader;
+    media::GlProgram _renderShader;
 
-    cellar::CameraManFree _cameraMan;
+    media::CameraManFree _cameraMan;
     std::shared_ptr<prop2::TextHud> _fps;
 };
 

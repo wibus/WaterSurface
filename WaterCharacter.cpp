@@ -1,7 +1,4 @@
 #include "WaterCharacter.h"
-using namespace std;
-using namespace cellar;
-using namespace scaena;
 
 #include <vector>
 #include <algorithm>
@@ -12,6 +9,11 @@ using namespace scaena;
 #include <Stage/Event/StageTime.h>
 #include <Stage/Event/SynchronousKeyboard.h>
 #include <Stage/Event/SynchronousMouse.h>
+
+using namespace std;
+using namespace cellar;
+using namespace media;
+using namespace scaena;
 
 
 WaterCharacter::WaterCharacter(scaena::AbstractStage &stage) :
@@ -119,7 +121,7 @@ void WaterCharacter::setupWater()
 void WaterCharacter::setupShaders()
 {
     // Shaders
-    cellar::GlInputsOutputs locations;
+    GlInputsOutputs locations;
     locations.setInput(0, "position_att");
 
 

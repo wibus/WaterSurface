@@ -2,12 +2,12 @@
 #define CPUWATERSIM_H
 
 #include <DesignPattern/SpecificObserver.h>
-#include <Graphics/Camera/Camera.h>
-#include <Graphics/Camera/CameraManFree.h>
-#include <Graphics/Light/Light3D.h>
-#include <Graphics/GL/GlProgram.h>
-#include <Graphics/GL/GlVao.h>
-#include <Graphics/GL/GLFFmpegCamcorder.h>
+#include <Camera/Camera.h>
+#include <Camera/CameraManFree.h>
+#include <Light/Light3D.h>
+#include <GL/GlProgram.h>
+#include <GL/GlVao.h>
+#include <GL/GLFFmpegCamcorder.h>
 
 #include <Hud/TextHud.h>
 
@@ -36,7 +36,7 @@ struct Vertex
 
 
 class CpuWaterSim : public scaena::AbstractCharacter,
-                    public cellar::SpecificObserver<cellar::CameraMsg>
+                    public cellar::SpecificObserver<media::CameraMsg>
 {
 public:
     CpuWaterSim(scaena::AbstractStage& stage);
@@ -50,7 +50,7 @@ public:
 
     virtual bool keyPressEvent(const scaena::KeyboardEvent& event);
 
-    virtual void notify(cellar::CameraMsg &msg);
+    virtual void notify(media::CameraMsg &msg);
 
 protected:
     void setupLattice();
@@ -96,24 +96,24 @@ private:
     std::vector<unsigned int> _latticeIndices;
 
     GLuint _groundTex;
-    cellar::GlVao _groundVao;
+    media::GlVao _groundVao;
     std::vector<cellar::Vec3f> _groundPositions;
-    cellar::Material _groundMaterial;
+    media::Material _groundMaterial;
 
     GLuint _wallsTex;
-    cellar::GlVao _wallsVao;
-    cellar::Material _wallsMaterial;
+    media::GlVao _wallsVao;
+    media::Material _wallsMaterial;
 
     GLuint _waterTex;
-    cellar::GlVao _waterVao;
+    media::GlVao _waterVao;
     std::vector<cellar::Vec3f> _waterPositions;
     std::vector<cellar::Vec3f> _waterNormals;
     std::vector<float> _waterVelocities;
-    cellar::Material _waterMaterial;
+    media::Material _waterMaterial;
 
-    cellar::PointLight3D _pointLight;
-    cellar::CameraManFree _cameraMan;
-    cellar::GlProgram _renderShader;
+    media::PointLight3D _pointLight;
+    media::CameraManFree _cameraMan;
+    media::GlProgram _renderShader;
 
     std::shared_ptr<prop2::TextHud> _fps;
 
