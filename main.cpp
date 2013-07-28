@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace std;
 
+#include <Misc/Log.h>
+using namespace cellar;
+
 #include <ScaenaApplication/Application.h>
 #include <ScaenaApplication/GlMainWindow.h>
 #include <Stage/QGLStage.h>
@@ -12,6 +15,8 @@ using namespace scaena;
 
 int main(int argc, char** argv) try
 {
+    getLog().setOuput(cout);
+
     getApplication().init(argc, argv);
     getApplication().setPlay(std::shared_ptr<AbstractPlay>(new WaterPlay()));
 

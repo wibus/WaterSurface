@@ -19,6 +19,6 @@ void WaterPlay::loadExternalRessources()
 void WaterPlay::setUpPersistentCharacters()
 {
     addPersistentCharacter(
-        shared_ptr<AbstractCharacter>(new CpuWaterSim( stage() ))
+        shared_ptr<AbstractCharacter>(new WaterCharacter( stage() ))
     );
 }

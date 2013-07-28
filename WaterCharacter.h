@@ -34,18 +34,22 @@ private:
     void setupVaos();
 
 
-    cellar::Vec2i _size;
-    std::vector<unsigned int> _latticeIndices;
+    cellar::Vec2i _resolution;
 
     unsigned int _waterVelocityFbo;
-    unsigned int _waterVelocityTex;
     unsigned int _waterHeightFbo;
-    unsigned int _waterHeightTex;    
-    unsigned int _waterLatticeVao;
-    unsigned int _waterLatticeBuffer;
 
-    unsigned int _groundLatticeVao;
-    unsigned int _groundLatticeBuffer;
+    unsigned int _textures[5];
+
+    int _waterHeightRead;
+    int _waterHeightWrite;
+    int _waterVelocityRead;
+    int _waterVelocityWrite;
+    int _groundRead;
+
+    unsigned int _latticeVao;
+    unsigned int _latticeBuffer;
+    std::vector<unsigned int> _latticeIndices;
 
     unsigned int _quadVao;
     unsigned int _quadBuffer;

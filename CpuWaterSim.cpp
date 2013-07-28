@@ -312,7 +312,7 @@ void CpuWaterSim::endStep(const StageTime &time)
     }
 
     if(stage().synchronousMouse().displacement() != Vec2i(0, 0) &&
-       stage().synchronousMouse().buttonIsPressed(Mouse::LEFT))
+       stage().synchronousMouse().buttonIsPressed(EMouseButton::LEFT))
     {
         _cameraMan.turnHorizontaly(stage().synchronousMouse().displacement().x() * turnSpeed);
         _cameraMan.turnVerticaly(  stage().synchronousMouse().displacement().y() * turnSpeed);
@@ -385,7 +385,7 @@ void CpuWaterSim::notify(CameraMsg &msg)
 {
     _renderShader.pushProgram();
 
-    if(msg.change == CameraMsg::PROJECTION)
+    if(msg.change == CameraMsg::EChange::PROJECTION)
         _renderShader.setMat4f("Projection", msg.camera.projectionMatrix());
     else
     {

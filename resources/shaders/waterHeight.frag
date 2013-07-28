@@ -1,13 +1,21 @@
-#version 120
+#version 130
 
-uniform sampler2D HeightTex;
-uniform sampler2D VelocityTex;
-uniform vec2 Size;
+uniform sampler2D GroundHeightTex;
+uniform sampler2D WaterHeightTex;
+uniform sampler2D WaterVelocityTex;
+
+in vec2 position;
 
 void main(void)
 {
-    float vel = texture2D(VelocityTex, gl_FragCoord.st / Size).z;
-    if(vel > 0.5) vel -= 1.0;
+    vec4 g = texture(GroundHeightTex, position);
+    vec4 h = texture(WaterHeightTex, position);
+    vec4 v = texture(WaterVelocityTex, position);
 
-    gl_FragColor = texture2D(HeightTex, gl_FragCoord.st / Size) + vec4(0, 0, vel, 0)*2;
+    if(h.z <= g.z)
+    {
+        h.z = g.z;
+    }
+
+    gl_FragColor = h + v;
 }

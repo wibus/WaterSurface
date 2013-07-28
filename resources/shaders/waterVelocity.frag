@@ -1,30 +1,50 @@
-#version 120
+#version 130
 
-uniform sampler2D HeightTex;
-uniform sampler2D VelocityTex;
-uniform vec2 Size;
+uniform sampler2D GroundHeightTex;
+uniform sampler2D WaterHeightTex;
+uniform sampler2D WaterVelocityTex;
+
+in vec2 position;
+
+const ivec2 offsets[25] = ivec2[25](
+    ivec2(-2, -2), ivec2(-1, -2), ivec2(0, -2), ivec2(1, -2), ivec2(2, -2),
+    ivec2(-2, -1), ivec2(-1, -1), ivec2(0, -1), ivec2(1, -1), ivec2(2, -1),
+    ivec2(-2,  0), ivec2(-1,  0), ivec2(0,  0), ivec2(1,  0), ivec2(2,  0),
+    ivec2(-2,  1), ivec2(-1,  1), ivec2(0,  1), ivec2(1,  1), ivec2(2,  1),
+    ivec2(-2,  2), ivec2(-1,  2), ivec2(0,  2), ivec2(1,  2), ivec2(2,  2)
+);
+const float coeffs[25] = float[25](
+    0, 3, 4, 3, 0,
+    3, 6, 7, 6, 3,
+    4, 7, 0, 7, 4,
+    3, 6, 7, 6, 3,
+    0, 3, 4, 3, 0
+);
 
 void main(void)
 {
-    float currHeight   = texture2D(HeightTex,   gl_FragCoord.st / Size).z;
-    float currVelocity = texture2D(VelocityTex, gl_FragCoord.st / Size).z;
+    vec4 mgh = texture(GroundHeightTex,  position);
+    vec4 mwh = texture(WaterHeightTex,   position);
+    vec4 mwv = texture(WaterVelocityTex, position);
+    vec4 mwp = max(mwh - mgh, 0.0);
 
-    float r = 1.0;
-    int nbSamp = 0;
-    float around = 0.0;
+    float acc = 0.0;
+    vec4  sum = vec4(0.0);
+    for(int i=0; i < 25; ++i)
+    {
+        vec4 gh = textureOffset(GroundHeightTex, position, offsets[i]);
+        vec4 wh = textureOffset(WaterHeightTex,  position, offsets[i]);
+        vec4 wp = max(wh - gh, 0.0);
 
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2(-r, -r)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2(-r,  0)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2(-r,  r)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2( 0,  r)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2( r,  r)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2( r,  0)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2( r, -r)) / Size).z; ++nbSamp;
-    around += texture2D(HeightTex, (gl_FragCoord.st + vec2( 0, -r)) / Size).z; ++nbSamp;
+        vec4 door = vec4(1.0);
+        door *= step(0.0, mwh - gh);
+        door *= step(0.0, wh - mgh);
 
-    currVelocity += (around/nbSamp - currHeight)/16.0;
-    if(currVelocity < 0.0) currVelocity += 1.0;
-    if(currVelocity > 1.0) currVelocity -= 1.0;
+        sum += (wp - mwp) * door * coeffs[i];
+        acc += coeffs[i];
+    }
 
-    gl_FragColor = vec4(0, 0, currVelocity, 0.0);
+    vec4 f = -mwv * 0.001;
+
+    gl_FragColor = mwv + f + (sum/acc)*0.8;
 }
